@@ -5,9 +5,9 @@ public class CarWash {
     // MARK: -
     // MARK: Variables
     
-    private var washers: [Washer] = []
-    private var accountants: [Accountant] = []
-    private(set) var priceWaterLiter: Float
+    public var workers: [Worker] = []
+    public var priceWaterLiter: Float
+    
     private(set) var chief: Chief
     
     // MARK: -
@@ -23,19 +23,11 @@ public class CarWash {
     // MARK: -
     // MARK: Public
     
-    public func hire(washer: Washer) {
-        washer.workPlace = self
-        
-        self.washers.append(washer)
-    }
-    
-    public func hire(accountant: Accountant) {
-        accountant.workPlace = self
-        
-        self.accountants.append(accountant)
+    public func hire(workers: [Worker]) {
+        self.chief.hire(workers: workers)
     }
     
     public func service(car: Car) {
-        washers.randomElement()?.service(car: car)
+        
     }
 }

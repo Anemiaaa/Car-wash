@@ -2,5 +2,5 @@ import Foundation
 
 public protocol AccountantDelegate: AnyObject {
     
-    func count(money: Float)
+    func takeMoney(money: Float, afterTaking: () -> ())
 }

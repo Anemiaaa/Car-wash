@@ -12,20 +12,19 @@ public class Car {
     // MARK: -
     // MARK: Variables
     
+    public let size: CarSize
+    public let brand: String
+    
     public var isDirty = false
-    
-    var money: Float
-    
-    let size: CarSize
-    let brand: String
+    public var money: Float
     
     // MARK: -
     // MARK: Initialization
     
-    public init(brand: String, size: CarSize, money: Float) {
+    public init(brand: String, money: Float, size: CarSize) {
         self.brand = brand
-        self.size = size
         self.money = money
+        self.size = size
     }
     
     // MARK: -
