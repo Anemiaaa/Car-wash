@@ -7,8 +7,7 @@ public class CarWash {
     
     public var workers: [Worker] = []
     public var priceWaterLiter: Float
-    
-    private(set) var chief: Chief
+    public var chief: Chief
     
     // MARK: -
     // MARK: Initialization
@@ -23,11 +22,12 @@ public class CarWash {
     // MARK: -
     // MARK: Public
     
-    public func hire(workers: [Worker]) {
-        self.chief.hire(workers: workers)
+    public func hire(workers: inout [Worker]) {
+        self.chief.hire(workers: &workers)
     }
     
     public func service(car: Car) {
-        
+        let washer: [Washer] = self.workers.compactMap { $0 as? Washer }
+        washer.randomElement()?.service(car: car)
     }
 }

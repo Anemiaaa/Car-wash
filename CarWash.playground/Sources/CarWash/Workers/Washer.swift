@@ -1,6 +1,6 @@
 import Foundation
 
-public class Washer: Worker {
+public class Washer: Worker, BillCalculate {
 
     // MARK: -
     // MARK: Variables
@@ -30,6 +30,19 @@ public class Washer: Worker {
         })
     }
     
+    public func calculate(size: CarSize, literPrice: Float) -> Float {
+        let bill: Float
+        
+        if size == .small {
+            bill = literPrice * Float.random(in: 35..<50) + 100
+        } else if size == .standard {
+            bill = literPrice * Float.random(in: 50..<70) + 150
+        } else {
+            bill = literPrice * Float.random(in: 70..<90) + 250
+        }
+        return bill
+    }
+    
     // MARK: -
     // MARK: Private
     
@@ -39,7 +52,7 @@ public class Washer: Worker {
             return false
         }
         
-        let bill = BillCalculate.calculate(size: car.size, literPrice: workPlace?.priceWaterLiter)
+        let bill = calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
         
         if car.spend(money: bill) {
             car.isDirty = false

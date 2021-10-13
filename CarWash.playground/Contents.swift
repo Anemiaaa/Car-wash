@@ -14,21 +14,28 @@ let chief = Chief()
 let carWash = CarWash(chief: chief, priceWaterLiter: 5)
 
 let accountants: [Worker] = (1...7).map { _ in
-    Accountant.random()
+    let accountant  = Accountant.random()
+    accountant.workPlace = carWash
+
+    return accountant
 }
 
 let washers: [Worker] = (1...20).map { _ in
     let washer = Washer.random()
     washer.delegate = accountants.randomElement() as? AccountantDelegate
-    
+    washer.workPlace = carWash
+
     return washer
 }
 
-carWash.hire(workers: <#T##[Worker]#>)
+var workers = [washers, accountants].flatMap { $0 }
+carWash.hire(workers: &workers )
 
 dirtyCars.forEach { car in
     carWash.service(car: car)
 }
+
+print("chief earned \(chief.money)")
 
 
 

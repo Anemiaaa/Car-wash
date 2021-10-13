@@ -7,7 +7,7 @@ public class Chief {
     
     weak var workPlace: CarWash?
     
-    private var money: Float = 0
+    public var money: Float = 0
     
     // MARK: -
     // MARK: Initialization
@@ -21,9 +21,10 @@ public class Chief {
         self.money += money
     }
     
-    public func hire(workers: [Worker]) {
-        workers.forEach {
-            self.workPlace?.workers.append($0)
+    public func hire(workers: inout [Worker]) {
+        (0..<workers.count).forEach { index in
+            self.workPlace?.workers.append(workers[index])
+            workers[index].workPlace = self.workPlace
         }
     }
     
