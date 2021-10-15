@@ -1,6 +1,6 @@
 import Foundation
 
-public class Chief {
+public class Chief: Money {
     
     // MARK: -
     // MARK: Variables
@@ -17,14 +17,23 @@ public class Chief {
     // MARK: -
     // MARK: Public
     
-    public func earn(money: Float) {
+    public func moneyOperation(money: Float, beforeTaking: (() -> ())?) {
+        beforeTaking?()
+        
         self.money += money
     }
     
     public func hire(workers: inout [Worker]) {
         (0..<workers.count).forEach { index in
-            self.workPlace?.workers.append(workers[index])
             workers[index].workPlace = self.workPlace
+            
+            let worker = workers[index]
+            
+            if let accountant =  worker as? Accountant {
+                self.workPlace?.accountants.append(Weak(object: accountant))
+            } else if let washer = worker as? Washer {
+                self.workPlace?.washers.append(Weak(object: washer))
+            }
         }
     }
     
@@ -36,5 +45,18 @@ public class Chief {
         }
         
         return notNull
+    }
+    
+    public func appointAccountant(to washer: inout Washer) {
+        if let accountants = self.workPlace?.accountants.compactMap({ $0.object }) {
+            
+            if let minWorkload: Int = accountants.compactMap({ $0.workload }).min() {
+                let accountantToAppointing = accountants.first { $0.workload == minWorkload }
+                
+                washer.delegate = accountantToAppointing
+                
+                accountantToAppointing?.workload += 1
+            }
+        }
     }
 }

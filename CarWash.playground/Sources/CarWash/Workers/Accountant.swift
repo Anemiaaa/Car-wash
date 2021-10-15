@@ -1,12 +1,18 @@
 import Foundation
 
-public class Accountant: Worker, AccountantDelegate {
+public class Accountant: Worker, Money {
     
     // MARK: -
     // MARK: Variables
     
     public weak var workPlace: CarWash?
-    public var money: Float = 0
+    
+    public var workload: Int = 0
+    public var money: Float = 0 //{
+//        didSet {
+//            self.work()
+//        }
+//    }
     
     // MARK: -
     // MARK: Initialization
@@ -15,26 +21,22 @@ public class Accountant: Worker, AccountantDelegate {
     
     // MARK: -
     // MARK: Public
-
-    public func takeMoney(money: Float, afterTaking: () -> ()) {
+    
+    public func work() {
+        if self.money > 0 {
+            let changedMoney = money / 100 * 75
+            self.money = changedMoney
+            
+            self.workPlace?.chief?.moneyOperation(money: self.money, beforeTaking: {
+                self.money = 0
+            })
+        }
+    }
+    
+    public func moneyOperation(money: Float, beforeTaking: (() -> ())?) {
+        beforeTaking?()
+        
         self.money = money
-        
-        afterTaking()
-        
-        self.calculate()
-    }
-    
-    // MARK: -
-    // MARK: Private
-    
-    private func handOverMoney() {
-        self.workPlace?.chief.earn(money: money)
-    }
-    
-    private func calculate() {
-        let changedMoney = money / 100 * 75
-        self.money = changedMoney
-        
-        self.handOverMoney()
+        self.work()
     }
 }

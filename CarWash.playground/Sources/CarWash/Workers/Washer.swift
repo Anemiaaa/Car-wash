@@ -1,11 +1,11 @@
 import Foundation
 
-public class Washer: Worker, BillCalculate {
+public class Washer: Worker, Money {
 
     // MARK: -
     // MARK: Variables
 
-    public weak var delegate: AccountantDelegate?
+    public weak var delegate: Accountant?
     public var money: Float = 0
     
     weak public var workPlace: CarWash?
@@ -18,33 +18,33 @@ public class Washer: Worker, BillCalculate {
     // MARK: -
     // MARK: Public
     
-    public func service(car: Car) {
-        if clean(car: car) {
-            self.handOverMoney()
+    public func work() {
+        if let car = self.search() {
+            if clean(car: car) {
+                self.workPlace?.remove(car: car)
+                self.moneyOperation(money: self.money, beforeTaking: nil)
+            }
         }
     }
     
-    public func handOverMoney() {
-        self.delegate?.takeMoney(money: self.money, afterTaking: {
+    public func moneyOperation(money: Float, beforeTaking: (() -> ())?) {
+        beforeTaking?()
+
+        self.delegate?.moneyOperation(money: self.money, beforeTaking: {
             self.money = 0
         })
     }
     
-    public func calculate(size: CarSize, literPrice: Float) -> Float {
-        let bill: Float
-        
-        if size == .small {
-            bill = literPrice * Float.random(in: 35..<50) + 100
-        } else if size == .standard {
-            bill = literPrice * Float.random(in: 50..<70) + 150
-        } else {
-            bill = literPrice * Float.random(in: 70..<90) + 250
-        }
-        return bill
-    }
     
     // MARK: -
     // MARK: Private
+    
+    private func search() -> Car? {
+        if let cars = self.workPlace?.cars {
+            return cars.randomElement()?.object
+        }
+        return nil
+    }
     
     private func clean(car: Car) -> Bool {
         if !car.isDirty {
@@ -66,5 +66,18 @@ public class Washer: Worker, BillCalculate {
         print("\(car.brand) doesnt have enough money! You need another \(bill - car.money)")
         
         return false
+    }
+    
+    private func calculate(size: CarSize, literPrice: Float) -> Float {
+        let bill: Float
+        
+        if size == .small {
+            bill = literPrice * Float.random(in: 35..<50) + 100
+        } else if size == .standard {
+            bill = literPrice * Float.random(in: 50..<70) + 150
+        } else {
+            bill = literPrice * Float.random(in: 70..<90) + 250
+        }
+        return bill
     }
 }

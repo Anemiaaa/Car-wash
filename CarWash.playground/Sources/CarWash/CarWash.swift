@@ -5,9 +5,12 @@ public class CarWash {
     // MARK: -
     // MARK: Variables
     
-    public var workers: [Worker] = []
+    public weak var chief: Chief?
+    
     public var priceWaterLiter: Float
-    public var chief: Chief
+    public var accountants: [Weak<Accountant>] = []
+    public var washers: [Weak<Washer>] = []
+    public var cars: [Weak<Car>] = []
     
     // MARK: -
     // MARK: Initialization
@@ -16,18 +19,24 @@ public class CarWash {
         self.chief = chief
         self.priceWaterLiter = priceWaterLiter
         
-        self.chief.workPlace = self
+        self.chief?.workPlace = self
     }
     
     // MARK: -
     // MARK: Public
     
     public func hire(workers: inout [Worker]) {
-        self.chief.hire(workers: &workers)
+        self.chief?.hire(workers: &workers)
     }
     
-    public func service(car: Car) {
-        let washer: [Washer] = self.workers.compactMap { $0 as? Washer }
-        washer.randomElement()?.service(car: car)
+    public func take(car: Car) {
+        let car = Weak(object: car)
+        self.cars.append(car)
+    }
+    
+    public func remove(car: Car) {
+        if let index = self.cars.firstIndex(where: { $0.object?.brand == car.brand }) {
+            self.cars.remove(at: index)
+        }
     }
 }

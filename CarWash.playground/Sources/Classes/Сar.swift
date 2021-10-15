@@ -31,13 +31,13 @@ public class Car {
     // MARK: Public
     
     public func spend(money: Float) -> Bool {
-        if self.money >= money {
+        let moreThen = self.money >= money
+        
+        if moreThen {
             self.money -= money
-            
-            return true
-        } else {
-            return false
         }
+        
+        return moreThen
     }
     
     public func drive() {

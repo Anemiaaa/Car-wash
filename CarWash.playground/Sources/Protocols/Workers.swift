@@ -1,8 +1,8 @@
 import Foundation
 
-public protocol Worker {
+public protocol Worker: AnyObject {
     
     var workPlace: CarWash? { get set }
     
-    var money: Float { get set }
+    func work()
 }
