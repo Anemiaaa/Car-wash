@@ -1,10 +1,6 @@
 import UIKit
 
-var cars: [Car] = []
-
-Car.random(count: 30).forEach { car in
-    cars.append(car)
-}
+var cars = Car.random(count: 30)
 
 cars.forEach { $0.drive() }
 
@@ -14,21 +10,18 @@ let chief = Chief()
 let carWash = CarWash(chief: chief, priceWaterLiter: 5)
 
 var accountants: [Worker] = (1...7).map { _ in
-    let accountant  = Accountant.random()
-    
-    return accountant
+    Accountant.random()
 }
 
-carWash.hire(workers: &accountants)
+chief.hire(workers: &accountants)
 
 var washers: [Worker] = (1...20).map { _ in
-    var washer = Washer.random()
-    chief.appointAccountant(to: &washer)
-
-    return washer
+    Washer.random()
 }
 
-carWash.hire(workers: &washers)
+//washers.forEach 
+
+chief.hire(workers: &washers)
 
 dirtyCars.forEach { car in
     carWash.take(car: car)

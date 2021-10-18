@@ -1,6 +1,6 @@
 import Foundation
 
-public class Weak<T: AnyObject> {
+public class Weak<T: AnyObject> {    
     
   public weak var object: T?
     

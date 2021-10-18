@@ -7,7 +7,8 @@ public class Accountant: Worker, Money {
     
     public weak var workPlace: CarWash?
     
-    public var workload: Int = 0
+    //public var workload: Int = 0
+    
     public var money: Float = 0 //{
 //        didSet {
 //            self.work()

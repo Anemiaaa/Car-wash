@@ -8,13 +8,6 @@ public class Washer: Worker, Money {
     public weak var delegate: Accountant?
     public var money: Float = 0
     
-    weak public var workPlace: CarWash?
-    
-    // MARK: -
-    // MARK: Initialization
-    
-    public init() {}
-    
     // MARK: -
     // MARK: Public
     
@@ -52,18 +45,18 @@ public class Washer: Worker, Money {
             return false
         }
         
-        let bill = calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
+        let price = calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
         
-        if car.spend(money: bill) {
+        if car.spend(money: price) {
             car.isDirty = false
             
             print("\(car.brand) was washed")
             
-            self.money = bill
+            self.money = price
             
             return true
         }
-        print("\(car.brand) doesnt have enough money! You need another \(bill - car.money)")
+        print("\(car.brand) doesnt have enough money! You need another \(price - car.money)")
         
         return false
     }
@@ -71,13 +64,15 @@ public class Washer: Worker, Money {
     private func calculate(size: CarSize, literPrice: Float) -> Float {
         let bill: Float
         
-        if size == .small {
-            bill = literPrice * Float.random(in: 35..<50) + 100
-        } else if size == .standard {
-            bill = literPrice * Float.random(in: 50..<70) + 150
-        } else {
-            bill = literPrice * Float.random(in: 70..<90) + 250
+        switch size {
+            case .small:
+                bill = literPrice * Float.random(in: 35..<50) + 100
+            case .standard:
+                bill = literPrice * Float.random(in: 50..<70) + 150
+            case .large:
+                bill = literPrice * Float.random(in: 70..<90) + 250
         }
+            
         return bill
     }
 }

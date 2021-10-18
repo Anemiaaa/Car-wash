@@ -8,8 +8,9 @@ public class CarWash {
     public weak var chief: Chief?
     
     public var priceWaterLiter: Float
-    public var accountants: [Weak<Accountant>] = []
-    public var washers: [Weak<Washer>] = []
+//    public var accountants: [Weak<Accountant>] = []
+//    public var washers: [Weak<Washer>] = []
+    public var workers: [Weak<Worker>] = []
     public var cars: [Weak<Car>] = []
     
     // MARK: -
@@ -24,10 +25,6 @@ public class CarWash {
     
     // MARK: -
     // MARK: Public
-    
-    public func hire(workers: inout [Worker]) {
-        self.chief?.hire(workers: &workers)
-    }
     
     public func take(car: Car) {
         let car = Weak(object: car)

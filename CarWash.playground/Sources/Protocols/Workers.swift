@@ -1,8 +1,28 @@
 import Foundation
 
-public protocol Worker: AnyObject {
+public class Worker {
     
-    var workPlace: CarWash? { get set }
+    // MARK: -
+    // MARK: Variables
     
-    func work()
+    var id: String
+    var workPlace: CarWash?
+  
+    // MARK: -
+    // MARK: Initialization
+    
+    init() {
+        self.id = UUID().uuidString
+    }
+    
+    // MARK: -
+    // MARK: Public
+    
+    func work() {
+        
+    }
+    
+    class func process() {
+        fatalError("override func process")
+    }
 }

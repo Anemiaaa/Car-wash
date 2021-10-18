@@ -6,6 +6,7 @@ public class Chief: Money {
     // MARK: Variables
     
     weak var workPlace: CarWash?
+    weak var employmentLog: EmploymentLog
     
     public var money: Float = 0
     
@@ -27,36 +28,37 @@ public class Chief: Money {
         (0..<workers.count).forEach { index in
             workers[index].workPlace = self.workPlace
             
-            let worker = workers[index]
-            
-            if let accountant =  worker as? Accountant {
-                self.workPlace?.accountants.append(Weak(object: accountant))
-            } else if let washer = worker as? Washer {
-                self.workPlace?.washers.append(Weak(object: washer))
+            self.workPlace?.workers.append(Weak(object: workers[index]))
+        }
+    }
+    
+    public func fire(workers: [Worker]) {
+        workers.forEach { worker in
+            if let index = self.workPlace?.workers.firstIndex(where: { $0.object?.id == worker.id }) {
+                self.workPlace?.workers.remove(at: index)
             }
         }
     }
     
     public func change(literPrice: Float) -> Bool {
-        let notNull = literPrice > 0
+        let isPositive = literPrice > 0
 
-        if notNull {
+        if isPositive {
             self.workPlace?.priceWaterLiter = literPrice
         }
         
-        return notNull
+        return isPositive
     }
     
     public func appointAccountant(to washer: inout Washer) {
-        if let accountants = self.workPlace?.accountants.compactMap({ $0.object }) {
-            
-            if let minWorkload: Int = accountants.compactMap({ $0.workload }).min() {
-                let accountantToAppointing = accountants.first { $0.workload == minWorkload }
-                
-                washer.delegate = accountantToAppointing
-                
-                accountantToAppointing?.workload += 1
-            }
-        }
+        let accountant = self.workPlace?
+            .accountants
+            .compactMap { $0.object }
+            .sorted { $0.workload < $1.workload }
+            .first
+        
+        washer.delegate = accountant
+        accountant?.workload += 1
     }
 }
+
