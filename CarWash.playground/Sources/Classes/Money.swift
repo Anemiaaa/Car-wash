@@ -1,10 +1,6 @@
 import Foundation
 
-public class MoneyContainable {
+public protocol MoneyContainable: AnyObject {
     
-    public var money: Float = 0
-    
-    init(money: Float) {
-        self.money = money
-    }
+    var money: Float { get set }
 }

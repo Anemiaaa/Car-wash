@@ -1,27 +1,32 @@
 import Foundation
 
-protocol WorkNotificable {
+public protocol WorkNotificable {
     
     func didFinishWork(worker: MoneyContainable)
 }
 
-public class Worker<Processable: MoneyContainable>: MoneyContainable {
+public class WorkerType: MoneyContainable {
     
     // MARK: -
     // MARK: Variables
 
-    public let id: String
+    public var money: Float
     public var workPlace: CarWash?
-    var delegate: WorkNotificable?
-  
+    public var delegate: WorkNotificable?
+    
+    public let id: String
+    
     // MARK: -
     // MARK: Initialization
     
     public init() {
         self.id = UUID().uuidString
-        super.init(money: 0)
+        self.money = 0
     }
-    
+}
+
+public class Worker<Processable: MoneyContainable>: WorkerType {
+
     // MARK: -
     // MARK: Public
     
@@ -31,10 +36,9 @@ public class Worker<Processable: MoneyContainable>: MoneyContainable {
         self.delegate?.didFinishWork(worker: self)
     }
     
-    func process(processable: Processable) {
+    public func process(processable: Processable) {
         fatalError("override func process")
     }
-    
 }
 
 extension Worker: Hashable {

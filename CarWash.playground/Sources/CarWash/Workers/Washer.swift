@@ -13,7 +13,7 @@ public class Washer: Worker<Car>, WorkNotificable {
         return nil
     }
     
-    func didFinishWork(worker: MoneyContainable) {
+    public func didFinishWork(worker: MoneyContainable) {
         //???
     }
     
@@ -60,7 +60,7 @@ public class Washer: Worker<Car>, WorkNotificable {
     // MARK: -
     // MARK: Overriden
     
-    override func process(processable: Car) {
+    public override func process(processable: Car) {
         if self.clean(car: processable) {
             self.workPlace?.remove(car: processable)
         }

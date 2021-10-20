@@ -8,7 +8,7 @@ public class CarWash {
     public weak var chief: Chief?
     
     public var priceWaterLiter: Float
-    public var workers: [Weak<Worker<MoneyContainable>>] = []
+    public var workers: [Weak<WorkerType>] = []
     public var cars: [Weak<Car>] = []
     
     // MARK: -

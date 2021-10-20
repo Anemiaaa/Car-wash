@@ -15,6 +15,7 @@ public class Car: MoneyContainable {
     public let size: CarSize
     public let brand: String
     
+    public var money: Float
     public var isDirty = false
     
     // MARK: -
@@ -23,7 +24,7 @@ public class Car: MoneyContainable {
     public init(brand: String, money: Float, size: CarSize) {
         self.brand = brand
         self.size = size
-        super.init(money: money)
+        self.money = money
     }
     
     // MARK: -

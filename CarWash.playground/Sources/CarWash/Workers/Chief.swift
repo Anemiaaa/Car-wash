@@ -10,19 +10,20 @@ public class Chief: Worker<Accountant>, WorkNotificable {
     // MARK: -
     // MARK: Public
     
-    public func hire(workers: inout [MoneyContainable]) {
+    public func hire<Action: MoneyContainable, WorkerType: Worker<Action>>(
+        workers: inout [WorkerType]
+    ) {
         workers.forEach { element in
-            if let worker = element as? Worker {
-                worker.workPlace = self.workPlace
-                self.workPlace?.workers.append(Weak(object: worker))
-            }
+            element.workPlace = self.workPlace
+        
+            self.workPlace?.workers.append(Weak(object: element))
         }
     }
     
-    public func fire(workers: [MoneyContainable]) {
+    public func fire(workers: [WorkerType]) {
         workers.forEach { worker in
-            if let index = self.workPlace?.workers.firstIndex(where: { ($0.object as? Worker)?.id == (worker as? Worker)?.id }) {
-                self.workPlace?.workers.remove(at: index)
+            self.workPlace?.workers.removeAll { worker in
+                workers.contains { worker.object?.id == $0.id }
             }
         }
     }
@@ -41,18 +42,17 @@ public class Chief: Worker<Accountant>, WorkNotificable {
         employmentLog.appoint(subordinates:  &subordinates)
     }
     
-    func didFinishWork(worker: MoneyContainable) {
+    public func didFinishWork(worker: MoneyContainable) {
         worker.money = 0
     }
     
     // MARK: -
     // MARK: Overriden
     
-    override func process(processable: Accountant) {
+    public override func process(processable: Accountant) {
         if processable.money > 0 {
             self.money += processable.money
         }
     }
-    
 }
 
