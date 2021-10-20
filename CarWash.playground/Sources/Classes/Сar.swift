@@ -7,7 +7,7 @@ public enum CarSize {
     case large
 }
 
-public class Car {
+public class Car: MoneyContainable {
     
     // MARK: -
     // MARK: Variables
@@ -16,28 +16,27 @@ public class Car {
     public let brand: String
     
     public var isDirty = false
-    public var money: Float
     
     // MARK: -
     // MARK: Initialization
     
     public init(brand: String, money: Float, size: CarSize) {
         self.brand = brand
-        self.money = money
         self.size = size
+        super.init(money: money)
     }
     
     // MARK: -
     // MARK: Public
     
     public func spend(money: Float) -> Bool {
-        let moreThen = self.money >= money
+        let moreThan = self.money >= money
         
-        if moreThen {
+        if moreThan {
             self.money -= money
         }
         
-        return moreThen
+        return moreThan
     }
     
     public func drive() {

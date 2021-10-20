@@ -1,43 +1,24 @@
 import Foundation
 
-public class Washer: Worker, Money {
-
-    // MARK: -
-    // MARK: Variables
-
-    public weak var delegate: Accountant?
-    public var money: Float = 0
+public class Washer: Worker<Car>, WorkNotificable {
     
     // MARK: -
     // MARK: Public
     
-    public func work() {
-        if let car = self.search() {
-            if clean(car: car) {
-                self.workPlace?.remove(car: car)
-                self.moneyOperation(money: self.money, beforeTaking: nil)
-            }
-        }
-    }
-    
-    public func moneyOperation(money: Float, beforeTaking: (() -> ())?) {
-        beforeTaking?()
-
-        self.delegate?.moneyOperation(money: self.money, beforeTaking: {
-            self.money = 0
-        })
-    }
-    
-    
-    // MARK: -
-    // MARK: Private
-    
-    private func search() -> Car? {
+    //???
+    public func search() -> Car? {
         if let cars = self.workPlace?.cars {
             return cars.randomElement()?.object
         }
         return nil
     }
+    
+    func didFinishWork(worker: MoneyContainable) {
+        //???
+    }
+    
+    // MARK: -
+    // MARK: Private
     
     private func clean(car: Car) -> Bool {
         if !car.isDirty {
@@ -74,5 +55,14 @@ public class Washer: Worker, Money {
         }
             
         return bill
+    }
+    
+    // MARK: -
+    // MARK: Overriden
+    
+    override func process(processable: Car) {
+        if self.clean(car: processable) {
+            self.workPlace?.remove(car: processable)
+        }
     }
 }

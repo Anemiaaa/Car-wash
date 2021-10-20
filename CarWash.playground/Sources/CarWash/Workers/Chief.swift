@@ -1,40 +1,27 @@
 import Foundation
 
-public class Chief: Money {
+public class Chief: Worker<Accountant>, WorkNotificable {
     
     // MARK: -
     // MARK: Variables
-    
-    weak var workPlace: CarWash?
-    weak var employmentLog: EmploymentLog
-    
-    public var money: Float = 0
-    
-    // MARK: -
-    // MARK: Initialization
-    
-    public init() {}
-    
+
+    var employmentLog = EmploymentLog()
+
     // MARK: -
     // MARK: Public
     
-    public func moneyOperation(money: Float, beforeTaking: (() -> ())?) {
-        beforeTaking?()
-        
-        self.money += money
-    }
-    
-    public func hire(workers: inout [Worker]) {
-        (0..<workers.count).forEach { index in
-            workers[index].workPlace = self.workPlace
-            
-            self.workPlace?.workers.append(Weak(object: workers[index]))
+    public func hire(workers: inout [MoneyContainable]) {
+        workers.forEach { element in
+            if let worker = element as? Worker {
+                worker.workPlace = self.workPlace
+                self.workPlace?.workers.append(Weak(object: worker))
+            }
         }
     }
     
-    public func fire(workers: [Worker]) {
+    public func fire(workers: [MoneyContainable]) {
         workers.forEach { worker in
-            if let index = self.workPlace?.workers.firstIndex(where: { $0.object?.id == worker.id }) {
+            if let index = self.workPlace?.workers.firstIndex(where: { ($0.object as? Worker)?.id == (worker as? Worker)?.id }) {
                 self.workPlace?.workers.remove(at: index)
             }
         }
@@ -50,15 +37,22 @@ public class Chief: Money {
         return isPositive
     }
     
-    public func appointAccountant(to washer: inout Washer) {
-        let accountant = self.workPlace?
-            .accountants
-            .compactMap { $0.object }
-            .sorted { $0.workload < $1.workload }
-            .first
-        
-        washer.delegate = accountant
-        accountant?.workload += 1
+    public func appoint(subordinates: inout [Washer]) {
+        employmentLog.appoint(subordinates:  &subordinates)
     }
+    
+    func didFinishWork(worker: MoneyContainable) {
+        worker.money = 0
+    }
+    
+    // MARK: -
+    // MARK: Overriden
+    
+    override func process(processable: Accountant) {
+        if processable.money > 0 {
+            self.money += processable.money
+        }
+    }
+    
 }
 
