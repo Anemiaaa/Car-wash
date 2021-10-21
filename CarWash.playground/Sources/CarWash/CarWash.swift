@@ -7,11 +7,9 @@ public class CarWash {
     
     public weak var chief: Chief? {
         didSet {
-            self.workers.forEach { worker in
-                if let accountant = worker.object as? Accountant {
-                    accountant.delegate = chief
-                }
-            }
+            self.workers
+                .compactMap { $0.object as? Accountant }
+                .forEach { $0.delegate = chief }
         }
     }
     
@@ -38,8 +36,6 @@ public class CarWash {
     }
     
     public func remove(car: Car) {
-        if let index = self.cars.firstIndex(where: { $0.object?.brand == car.brand }) {
-            self.cars.remove(at: index)
-        }
+        self.cars.removeAll { $0.object == car }
     }
 }

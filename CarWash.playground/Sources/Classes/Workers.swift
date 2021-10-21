@@ -5,7 +5,7 @@ public protocol WorkNotificable {
     func didFinishWork(worker: MoneyContainable)
 }
 
-public class WorkerType: MoneyContainable {
+public class WorkerType: MoneyContainable, Equatable {
     
     // MARK: -
     // MARK: Variables
@@ -23,6 +23,13 @@ public class WorkerType: MoneyContainable {
         self.id = UUID().uuidString
         self.money = 0
     }
+    
+    // MARK: -
+    // MARK: Equatable
+    
+    public static func == (lhs: WorkerType, rhs: WorkerType) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 public class Worker<Processable: MoneyContainable>: WorkerType {
@@ -38,6 +45,16 @@ public class Worker<Processable: MoneyContainable>: WorkerType {
     
     public func process(processable: Processable) {
         fatalError("override func process")
+    }
+}
+
+public class Manager<Processable: MoneyContainable>: Worker<Processable>, WorkNotificable {
+    
+    public func didFinishWork(worker: MoneyContainable) {
+        if let worker = worker as? Processable {
+            self.work(processable: worker)
+            worker.money = 0
+        }
     }
 }
 

@@ -1,17 +1,7 @@
 import Foundation
 
-public class Accountant: Worker<Washer>, WorkNotificable {
+public class Accountant: Manager<Washer> {
         
-    // MARK: -
-    // MARK: Public
-    
-    public func didFinishWork(worker: MoneyContainable) {
-        if var washer = worker as? Washer {
-            self.work(processable: washer)
-            worker.money = 0
-        }
-    }
-    
     // MARK: -
     // MARK: Overriden
     

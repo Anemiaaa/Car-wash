@@ -1,6 +1,12 @@
 import Foundation
 
-public class Chief: Worker<Accountant>, WorkNotificable {
+public enum ChangePriceResult {
+    
+    case success
+    case isNotGreatThanZero
+}
+
+public class Chief: Manager<Accountant> {
     
     // MARK: -
     // MARK: Variables
@@ -34,25 +40,18 @@ public class Chief: Worker<Accountant>, WorkNotificable {
         }
     }
     
-    public func change(literPrice: Float) -> Bool {
+    public func change(literPrice: Float) -> ChangePriceResult {
         let isPositive = literPrice > 0
 
         if isPositive {
             self.workPlace?.priceWaterLiter = literPrice
         }
         
-        return isPositive
+        return isPositive ? .success : .isNotGreatThanZero
     }
     
     public func appoint(subordinates: inout [Washer]) {
-        employmentLog.appoint(subordinates:  &subordinates)
-    }
-    
-    public func didFinishWork(worker: MoneyContainable) {
-        if var accountant = worker as? Accountant {
-            self.work(processable: accountant)
-            worker.money = 0
-        }
+        self.employmentLog.appoint(subordinates:  &subordinates)
     }
     
     // MARK: -

@@ -1,20 +1,12 @@
 import Foundation
 
-public class Washer: Worker<Car>, WorkNotificable {
+public class Washer: Worker<Car> {
     
     // MARK: -
     // MARK: Public
     
-    //???
     public func search() -> Car? {
-        if let cars = self.workPlace?.cars {
-            return cars.randomElement()?.object
-        }
-        return nil
-    }
-    
-    public func didFinishWork(worker: MoneyContainable) {
-        //???
+        return self.workPlace?.cars.randomElement()?.object
     }
     
     // MARK: -

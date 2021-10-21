@@ -7,11 +7,12 @@ public enum CarSize {
     case large
 }
 
-public class Car: MoneyContainable {
+public class Car: MoneyContainable, Equatable {
     
     // MARK: -
     // MARK: Variables
     
+    public let id: UUID
     public let size: CarSize
     public let brand: String
     
@@ -25,6 +26,7 @@ public class Car: MoneyContainable {
         self.brand = brand
         self.size = size
         self.money = money
+        self.id = UUID()
     }
     
     // MARK: -
@@ -44,5 +46,12 @@ public class Car: MoneyContainable {
         if Bool.random() {
             self.isDirty = true
         }
+    }
+    
+    // MARK: -
+    // MARK: Equatable
+    
+    public static func == (lhs: Car, rhs: Car) -> Bool {
+        lhs.id == rhs.id
     }
 }
