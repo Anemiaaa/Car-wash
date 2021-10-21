@@ -5,7 +5,15 @@ public class CarWash {
     // MARK: -
     // MARK: Variables
     
-    public weak var chief: Chief?
+    public weak var chief: Chief? {
+        didSet {
+            self.workers.forEach { worker in
+                if let accountant = worker.object as? Accountant {
+                    accountant.delegate = chief
+                }
+            }
+        }
+    }
     
     public var priceWaterLiter: Float
     public var workers: [Weak<WorkerType>] = []

@@ -1,12 +1,15 @@
 import Foundation
 
 public class Accountant: Worker<Washer>, WorkNotificable {
-    
+        
     // MARK: -
     // MARK: Public
     
     public func didFinishWork(worker: MoneyContainable) {
-        worker.money = 0
+        if var washer = worker as? Washer {
+            self.work(processable: washer)
+            worker.money = 0
+        }
     }
     
     // MARK: -

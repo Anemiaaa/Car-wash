@@ -17,6 +17,11 @@ public class Chief: Worker<Accountant>, WorkNotificable {
             element.workPlace = self.workPlace
         
             self.workPlace?.workers.append(Weak(object: element))
+            
+            if let accountant = element as? Accountant {
+                self.employmentLog.add(supervizors: [accountant])
+                accountant.delegate = self
+            }
         }
     }
     
@@ -25,6 +30,7 @@ public class Chief: Worker<Accountant>, WorkNotificable {
             self.workPlace?.workers.removeAll { worker in
                 workers.contains { worker.object?.id == $0.id }
             }
+            self.employmentLog.remove(worker: worker)
         }
     }
     
@@ -43,7 +49,10 @@ public class Chief: Worker<Accountant>, WorkNotificable {
     }
     
     public func didFinishWork(worker: MoneyContainable) {
-        worker.money = 0
+        if var accountant = worker as? Accountant {
+            self.work(processable: accountant)
+            worker.money = 0
+        }
     }
     
     // MARK: -

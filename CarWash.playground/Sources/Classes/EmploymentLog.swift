@@ -26,7 +26,7 @@ class EmploymentLog {
         }
     }
     
-    func remove(worker: MoneyContainable) -> Bool {
+    func remove(worker: WorkerType) {
         if let supervisor = worker as? Accountant,
            let index = self.log.index(forKey: supervisor),
            var values = self.log[supervisor]?.compactMap({ $0.object })
@@ -34,19 +34,16 @@ class EmploymentLog {
             self.log.remove(at: index)
             
             self.appoint(subordinates: &values)
-                
-            return true
+            return
         }
         
         if let subordinate = worker as? Washer,
-           let supervisor = subordinate.delegate as? Accountant
+           let supervisor = subordinate.delegate as? Accountant,
+           let row = self.log[supervisor]
         {
-            if let index = self.log[supervisor]?.firstIndex(where: { $0.object == subordinate  }) {
-                self.log[supervisor]?.remove(at: index)
-                
-                return true
+            self.log[supervisor]?.removeAll { worker in
+                row.contains { $0.object == subordinate }
             }
         }
-        return false
     }
 }

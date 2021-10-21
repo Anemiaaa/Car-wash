@@ -19,9 +19,9 @@ var washers: [Washer] = (1...20).map { _ in
     Washer.random()
 }
 
-//washers.forEach 
-
 chief.hire(workers: &washers)
+
+chief.appoint(subordinates: &washers)
 
 dirtyCars.forEach { car in
     carWash.take(car: car)
@@ -34,6 +34,4 @@ washers.forEach { washer in
 }
 
 print("chief earned \(chief.money)")
-
-
 
