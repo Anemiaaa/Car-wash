@@ -7,6 +7,12 @@ public enum CarSize {
     case large
 }
 
+public enum SpendResult {
+    
+    case success
+    case notEnoughMoney
+}
+
 public class Car: MoneyContainable, Equatable {
     
     // MARK: -
@@ -32,14 +38,14 @@ public class Car: MoneyContainable, Equatable {
     // MARK: -
     // MARK: Public
     
-    public func spend(money: Float) -> Bool {
+    public func spend(money: Float) -> SpendResult {
         let moreThan = self.money >= money
         
         if moreThan {
             self.money -= money
         }
         
-        return moreThan
+        return moreThan ? .success : .notEnoughMoney
     }
     
     public func drive() {

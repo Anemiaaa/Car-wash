@@ -1,5 +1,12 @@
 import Foundation
 
+public enum CleanResult {
+    
+    case success
+    case notEnoughMoney
+    case noNeedToClean
+}
+
 public class Washer: Worker<Car> {
     
     // MARK: -
@@ -12,26 +19,26 @@ public class Washer: Worker<Car> {
     // MARK: -
     // MARK: Private
     
-    private func clean(car: Car) -> Bool {
+    private func clean(car: Car) -> CleanResult {
         if !car.isDirty {
             print("Car \(car.brand) is clean .- .")
-            return false
+            return .noNeedToClean
         }
         
         let price = calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
         
-        if car.spend(money: price) {
+        if car.spend(money: price) == .success {
             car.isDirty = false
             
             print("\(car.brand) was washed")
             
             self.money = price
             
-            return true
+            return .success
         }
         print("\(car.brand) doesnt have enough money! You need another \(price - car.money)")
         
-        return false
+        return .notEnoughMoney
     }
     
     private func calculate(size: CarSize, literPrice: Float) -> Float {
@@ -53,7 +60,7 @@ public class Washer: Worker<Car> {
     // MARK: Overriden
     
     public override func process(processable: Car) {
-        if self.clean(car: processable) {
+        if self.clean(car: processable) == .success {
             self.workPlace?.remove(car: processable)
         }
     }

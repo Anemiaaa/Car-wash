@@ -7,11 +7,6 @@ public enum ChangePriceResult {
 }
 
 public class Chief: Manager<Accountant> {
-    
-    // MARK: -
-    // MARK: Variables
-
-    var employmentLog = EmploymentLog()
 
     // MARK: -
     // MARK: Public
@@ -22,10 +17,10 @@ public class Chief: Manager<Accountant> {
         workers.forEach { element in
             element.workPlace = self.workPlace
         
-            self.workPlace?.workers.append(Weak(object: element))
+            self.workPlace?.employmentLog.workers.append(Weak(object: element))
             
             if let accountant = element as? Accountant {
-                self.employmentLog.add(supervizors: [accountant])
+                self.workPlace?.employmentLog.add(supervizors: [accountant])
                 accountant.delegate = self
             }
         }
@@ -33,10 +28,10 @@ public class Chief: Manager<Accountant> {
     
     public func fire(workers: [WorkerType]) {
         workers.forEach { worker in
-            self.workPlace?.workers.removeAll { worker in
+            self.workPlace?.employmentLog.workers.removeAll { worker in
                 workers.contains { worker.object?.id == $0.id }
             }
-            self.employmentLog.remove(worker: worker)
+            self.workPlace?.employmentLog.remove(worker: worker)
         }
     }
     
@@ -51,7 +46,7 @@ public class Chief: Manager<Accountant> {
     }
     
     public func appoint(subordinates: inout [Washer]) {
-        self.employmentLog.appoint(subordinates:  &subordinates)
+        self.workPlace?.employmentLog.appoint(subordinates:  &subordinates)
     }
     
     // MARK: -

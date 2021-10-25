@@ -1,10 +1,5 @@
 import UIKit
-
-var cars = Car.random(count: 30)
-
-cars.forEach { $0.drive() }
-
-let dirtyCars = cars.filter { $0.isDirty }
+import Darwin
 
 let chief = Chief()
 let carWash = CarWash(chief: chief, priceWaterLiter: 5)
@@ -23,15 +18,23 @@ chief.hire(workers: &washers)
 
 chief.appoint(subordinates: &washers)
 
-dirtyCars.forEach { car in
-    carWash.take(car: car)
-}
+while(true) {
+    let cars = Car.random(count: 30)
+    
+    cars.forEach { $0.drive() }
 
-washers.forEach { washer in
-    if let car = washer.search() {
-        washer.work(processable: car)
+    cars
+        .filter { $0.isDirty }
+        .forEach { carWash.take(car: $0)}
+
+    washers.forEach { washer in
+        sleep(1)
+        
+        if let car = washer.search() {
+            washer.work(processable: car)
+        }
     }
-}
 
-print("chief earned \(chief.money)")
+    print("\nchief earned \(chief.money)\n")
+}
 

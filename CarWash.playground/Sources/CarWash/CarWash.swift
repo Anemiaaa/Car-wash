@@ -7,14 +7,14 @@ public class CarWash {
     
     public weak var chief: Chief? {
         didSet {
-            self.workers
+            self.employmentLog.workers
                 .compactMap { $0.object as? Accountant }
                 .forEach { $0.delegate = chief }
         }
     }
     
+    var employmentLog = EmploymentLog()
     public var priceWaterLiter: Float
-    public var workers: [Weak<WorkerType>] = []
     public var cars: [Weak<Car>] = []
     
     // MARK: -
