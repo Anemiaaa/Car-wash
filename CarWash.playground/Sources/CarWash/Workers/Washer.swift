@@ -12,8 +12,24 @@ public class Washer: Worker<Car> {
     // MARK: -
     // MARK: Public
     
-    public func search() -> Car? {
-        return self.workPlace?.cars.randomElement()?.object
+    public func search(completion: (Car?) -> ()) {
+        //return self.workPlace?.cars.randomElement()?.object
+
+        let lock = NSCondition()
+        
+        lock.lock()
+        
+        let car = self.workPlace?.cars
+            .compactMap { $0.object }
+            .first(where: { $0.available } )
+        
+        car?.available = false
+        
+        lock.unlock()
+        
+        completion(car)
+        
+        car?.available = true
     }
     
     // MARK: -

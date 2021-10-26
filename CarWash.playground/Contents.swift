@@ -1,5 +1,8 @@
 import UIKit
 import Darwin
+import Foundation
+
+import PlaygroundSupport
 
 let chief = Chief()
 let carWash = CarWash(chief: chief, priceWaterLiter: 5)
@@ -18,8 +21,11 @@ chief.hire(workers: &washers)
 
 chief.appoint(subordinates: &washers)
 
+let queue = OperationQueue()
+
 while(true) {
     let cars = Car.random(count: 30)
+    var operations: [Operation] = []
     
     cars.forEach { $0.drive() }
 
@@ -28,13 +34,19 @@ while(true) {
         .forEach { carWash.take(car: $0)}
 
     washers.forEach { washer in
-        sleep(1)
-        
-        if let car = washer.search() {
-            washer.work(processable: car)
+        let washing = BlockOperation {
+            washer.search { car in
+                guard let car = car else { return }
+                
+                washer.work(processable: car)
+            }
         }
+        
+        operations.append(washing)
     }
-
+    
+    queue.addOperations(operations, waitUntilFinished: true)
+    
     print("\nchief earned \(chief.money)\n")
 }
 

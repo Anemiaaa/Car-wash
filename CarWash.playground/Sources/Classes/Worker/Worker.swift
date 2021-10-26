@@ -8,7 +8,16 @@ public class Worker<Processable: MoneyContainable>: WorkerType {
     public func work(processable: Processable) {
         self.process(processable: processable)
         
-        self.delegate?.didFinishWork(worker: self)
+        guard let supervisor = self.delegate else { return }
+        
+        supervisor.lock.lock()
+        while(!supervisor.available) {
+            supervisor.lock.wait()
+        }
+        
+        supervisor.didFinishWork(worker: self)
+        
+        supervisor.lock.unlock()
     }
     
     public func process(processable: Processable) {

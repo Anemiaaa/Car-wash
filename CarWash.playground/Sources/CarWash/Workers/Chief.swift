@@ -55,6 +55,7 @@ public class Chief: Manager<Accountant> {
     public override func process(processable: Accountant) {
         if processable.money > 0 {
             self.money += processable.money
+            print("chief \(self.money)")
         }
     }
 }

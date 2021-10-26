@@ -13,9 +13,10 @@ public class CarWash {
         }
     }
     
-    var employmentLog = EmploymentLog()
     public var priceWaterLiter: Float
     public var cars: [Weak<Car>] = []
+    
+    var employmentLog = EmploymentLog()
     
     // MARK: -
     // MARK: Initialization

@@ -23,6 +23,7 @@ public class Car: MoneyContainable, Equatable {
     public let brand: String
     
     public var money: Float
+    public var available = true
     public var isDirty = false
     
     // MARK: -

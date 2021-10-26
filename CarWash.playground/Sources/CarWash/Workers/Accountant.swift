@@ -9,6 +9,7 @@ public class Accountant: Manager<Washer> {
         if processable.money > 0 {
             let changedMoney = processable.money / 100 * 75
             self.money = changedMoney
+            print("accountant \(self.money)")
         }
     }
 }
