@@ -15,14 +15,15 @@ public class Washer: Worker<Car> {
     public func search(completion: (Car?) -> ()) {
         //return self.workPlace?.cars.randomElement()?.object
 
-        let lock = NSCondition()
+        let lock = NSLock()
         
         lock.lock()
         
-        let car = self.workPlace?.cars
+        let car = self.workPlace?.cars.value
             .compactMap { $0.object }
             .first(where: { $0.available } )
         
+        //print("car is \(String(describing: self.workPlace?.cars))")
         car?.available = false
         
         lock.unlock()
@@ -44,6 +45,7 @@ public class Washer: Worker<Car> {
         let price = calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
         
         if car.spend(money: price) == .success {
+            sleep(1)
             car.isDirty = false
             
             print("\(car.brand) was washed")
@@ -75,9 +77,11 @@ public class Washer: Worker<Car> {
     // MARK: -
     // MARK: Overriden
     
-    public override func process(processable: Car) {
-        if self.clean(car: processable) == .success {
-            self.workPlace?.remove(car: processable)
-        }
+    public override func process(processable: Car) -> ProcessResult {
+        let result = self.clean(car: processable)
+        
+        self.workPlace?.parentController?.remove(car: processable)
+        
+        return result == .success ? .success : .fail
     }
 }

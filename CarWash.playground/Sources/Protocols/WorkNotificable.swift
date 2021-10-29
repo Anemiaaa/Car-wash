@@ -4,7 +4,7 @@ public protocol WorkNotificable {
     
     var available: Bool { get set }
     
-    var lock: NSCondition { get }
+    var lock: NSLock { get }
     
     func didFinishWork(worker: MoneyContainable)
 }

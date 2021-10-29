@@ -5,11 +5,14 @@ public class Accountant: Manager<Washer> {
     // MARK: -
     // MARK: Overriden
     
-    public override func process(processable: Washer) {
+    public override func process(processable: Washer) -> ProcessResult {
+        let recievedProfit: ProcessResult = processable.money > 0 ? .success : .fail
+        
         if processable.money > 0 {
             let changedMoney = processable.money / 100 * 75
             self.money = changedMoney
-            print("accountant \(self.money)")
         }
+        
+        return recievedProfit
     }
 }

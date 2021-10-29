@@ -1,26 +1,25 @@
 import Foundation
 
+public enum ProcessResult {
+    
+    case success
+    case fail
+}
+
 public class Worker<Processable: MoneyContainable>: WorkerType {
 
     // MARK: -
     // MARK: Public
     
     public func work(processable: Processable) {
-        self.process(processable: processable)
-        
-        guard let supervisor = self.delegate else { return }
-        
-        supervisor.lock.lock()
-        while(!supervisor.available) {
-            supervisor.lock.wait()
+        if self.process(processable: processable) == .success {
+            guard let supervisor = self.delegate else { return }
+            
+            supervisor.didFinishWork(worker: self)
         }
-        
-        supervisor.didFinishWork(worker: self)
-        
-        supervisor.lock.unlock()
     }
     
-    public func process(processable: Processable) {
+    public func process(processable: Processable) -> ProcessResult {
         fatalError("override func process")
     }
 }

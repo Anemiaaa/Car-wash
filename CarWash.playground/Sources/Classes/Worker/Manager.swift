@@ -3,24 +3,22 @@ import Foundation
 public class Manager<Processable: MoneyContainable>: Worker<Processable>, WorkNotificable {
     
     public var available = true
-    public let lock = NSCondition()
+    public let lock = NSLock()
     
-    let subordinatesQueue = OperationQueue()
+    let subordinatesQueue = DispatchQueue(label: "io.takeMoney", attributes: .concurrent)
     
     public func didFinishWork(worker: MoneyContainable) {
-        self.subordinatesQueue.addOperation { [weak self] in
+        subordinatesQueue.async { [weak self] in
             guard let self = self else { return }
+            
+            //print("enter didFinish, worker: \(worker)")
             
             if let worker = worker as? Processable {
                 
-                self.lock.lock()
-                self.available = false
-                
-                self.work(processable: worker)
-                
-                self.available = true
-                self.lock.signal()
-                self.lock.unlock()
+                self.subordinatesQueue.sync { [weak self] in
+                    //print("didFinishWork work")
+                    self?.work(processable: worker)
+                }
                 
                 worker.money = 0
             }
