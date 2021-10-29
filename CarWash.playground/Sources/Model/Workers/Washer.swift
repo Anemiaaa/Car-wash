@@ -19,7 +19,8 @@ public class Washer: Worker<Car> {
         
         lock.lock()
         
-        let car = self.workPlace?.cars.value
+        let car = self.workPlace?.cars
+            .value
             .compactMap { $0.object }
             .first(where: { $0.available } )
         
@@ -42,7 +43,7 @@ public class Washer: Worker<Car> {
             return .noNeedToClean
         }
         
-        let price = calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
+        let price = self.calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
         
         if car.spend(money: price) == .success {
             sleep(1)

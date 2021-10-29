@@ -6,6 +6,7 @@ class EmploymentLog {
     // MARK: Variables
     
     public var workers: [Weak<WorkerType>] = []
+    
     var log: [Accountant : [Weak<Washer>]] = [:]
     
     // MARK: -

@@ -116,14 +116,4 @@ public class CarWashController {
     public func printConsole(text: String) {
         print(text)
     }
-    
-//    private func createCarWash(chief: Chief, washers: inout [Washer], accountants: inout [Accountant], priceWaterLiter: Float) -> CarWash {
-//        let _carWash = CarWash(chief: chief, priceWaterLiter: priceWaterLiter)
-//
-//        chief.hire(workers: &accountants)
-//        chief.hire(workers: &washers)
-//        chief.appoint(subordinates: &washers)
-//
-//        return _carWash
-//    }
 }
