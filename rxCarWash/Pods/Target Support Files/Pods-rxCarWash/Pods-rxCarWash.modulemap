@@ -1,0 +1,6 @@
+framework module Pods_rxCarWash {
+  umbrella header "Pods-rxCarWash-umbrella.h"
+
+  export *
+  module * { export * }
+}
