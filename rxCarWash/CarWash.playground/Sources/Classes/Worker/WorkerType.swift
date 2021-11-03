@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 public class WorkerType: MoneyContainable, Equatable {
     
@@ -7,8 +8,8 @@ public class WorkerType: MoneyContainable, Equatable {
 
     public var money: Float
     public var workPlace: CarWash?
-    public var delegate: WorkNotificable?
     
+    public let publishSubject = PublishSubject<States>()
     public let id: UUID
     
     // MARK: -

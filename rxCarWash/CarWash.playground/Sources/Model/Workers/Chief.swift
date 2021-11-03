@@ -12,6 +12,8 @@ public class Chief: Manager<Accountant> {
             self.money += processable.money
         }
         
+        processable.money = 0
+        
         return recievedProfit
     }
 }

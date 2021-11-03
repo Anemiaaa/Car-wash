@@ -5,18 +5,25 @@ class EmploymentLog {
     // MARK: -
     // MARK: Variables
     
-    public var workers: [Weak<WorkerType>] = []
-    
-    public weak var chief: Chief? {
-        didSet {
-            self.workers
-                .compactMap { $0.object as? Accountant }
-                .forEach { $0.delegate = chief }
-        }
-    }
-    
-    
+    weak var parentController: CarWashController?
     var log: [Accountant : [Weak<Washer>]] = [:]
+    
+    // MARK: -
+    // MARK: Public
+    
+    public func getSupervizor<subordinateType: WorkerType>(subordinate: subordinateType) -> WorkNotificable? {
+        if let _ = subordinate as? Accountant,
+           let chief = self.parentController?.chief
+        {
+            return chief
+        }
+        if let subordinate = subordinate as? Washer,
+           let supervisor = self.log.first(where: { $1.first { $0.object == subordinate } != nil })?.key
+        {
+            return supervisor
+        }
+        return nil
+    }
     
     // MARK: -
     // MARK: Internal
@@ -28,7 +35,6 @@ class EmploymentLog {
     func appoint(subordinates: inout [Washer]) {
         subordinates.forEach { subordinate in
             if var minWorkload = self.log.sorted(by: { $0.value.count < $1.value.count }).first {
-                subordinate.delegate = minWorkload.key
                 
                 minWorkload.value.append(Weak(object: subordinate))
                 
@@ -49,7 +55,7 @@ class EmploymentLog {
         }
         
         if let subordinate = worker as? Washer,
-           let supervisor = subordinate.delegate as? Accountant,
+           let supervisor = self.getSupervizor(subordinate: subordinate) as? Accountant,
            let row = self.log[supervisor]
         {
             self.log[supervisor]?.removeAll { worker in

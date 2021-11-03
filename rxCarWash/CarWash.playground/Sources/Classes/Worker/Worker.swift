@@ -13,9 +13,8 @@ public class Worker<Processable: MoneyContainable>: WorkerType {
     
     public func work(processable: Processable) {
         if self.process(processable: processable) == .success {
-            guard let supervisor = self.delegate else { return }
             
-            supervisor.didFinishWork(worker: self)
+            self.publishSubject.onNext(.finishedWork(worker: self))
         }
     }
     

@@ -32,7 +32,6 @@ public class Washer: Worker<Car> {
     
     private func clean(car: Car) -> CleanResult {
         if !car.isDirty {
-            print("Car \(car.brand) is clean .- .")
             return .noNeedToClean
         }
         
@@ -42,13 +41,10 @@ public class Washer: Worker<Car> {
             sleep(1)
             car.isDirty = false
             
-            print("\(car.brand) was washed")
-            
             self.money = price
             
             return .success
         }
-        print("\(car.brand) doesnt have enough money! You need another \(price - car.money)")
         
         return .notEnoughMoney
     }
@@ -74,7 +70,7 @@ public class Washer: Worker<Car> {
     public override func process(processable: Car) -> ProcessResult {
         let result = self.clean(car: processable)
         
-        self.workPlace?.parentController?.remove(car: processable)
+        self.publishSubject.onNext(.carServiced(car: processable, result: result))
         
         return result == .success ? .success : .fail
     }

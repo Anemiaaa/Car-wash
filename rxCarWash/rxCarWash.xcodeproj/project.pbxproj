@@ -7,12 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04FBBE9D273007CA00643D2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBBE9C273007CA00643D2F /* AppDelegate.swift */; };
-		04FBBE9F273007CA00643D2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBBE9E273007CA00643D2F /* SceneDelegate.swift */; };
-		04FBBEA1273007CA00643D2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBBEA0273007CA00643D2F /* ViewController.swift */; };
-		04FBBEA4273007CA00643D2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FBBEA2273007CA00643D2F /* Main.storyboard */; };
-		04FBBEA6273007CD00643D2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04FBBEA5273007CD00643D2F /* Assets.xcassets */; };
-		04FBBEA9273007CD00643D2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FBBEA7273007CD00643D2F /* LaunchScreen.storyboard */; };
 		04FBBEB12730080100643D2F /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 04FBBEB02730080100643D2F /* Podfile */; };
 		E9AE258820F143DA71603EA9 /* Pods_rxCarWash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF9DA9479449C7409EFF4E5 /* Pods_rxCarWash.framework */; };
 /* End PBXBuildFile section */
@@ -20,12 +14,6 @@
 /* Begin PBXFileReference section */
 		046D57F5273008FE006A9393 /* CarWash.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CarWash.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		04FBBE99273007CA00643D2F /* rxCarWash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rxCarWash.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		04FBBE9C273007CA00643D2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		04FBBE9E273007CA00643D2F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04FBBEA0273007CA00643D2F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04FBBEA3273007CA00643D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		04FBBEA5273007CD00643D2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		04FBBEA8273007CD00643D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04FBBEAA273007CD00643D2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04FBBEB02730080100643D2F /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		1DF9DA9479449C7409EFF4E5 /* Pods_rxCarWash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rxCarWash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,12 +56,6 @@
 		04FBBE9B273007CA00643D2F /* rxCarWash */ = {
 			isa = PBXGroup;
 			children = (
-				04FBBE9C273007CA00643D2F /* AppDelegate.swift */,
-				04FBBE9E273007CA00643D2F /* SceneDelegate.swift */,
-				04FBBEA0273007CA00643D2F /* ViewController.swift */,
-				04FBBEA2273007CA00643D2F /* Main.storyboard */,
-				04FBBEA5273007CD00643D2F /* Assets.xcassets */,
-				04FBBEA7273007CD00643D2F /* LaunchScreen.storyboard */,
 				04FBBEAA273007CD00643D2F /* Info.plist */,
 			);
 			path = rxCarWash;
@@ -156,10 +138,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04FBBEA9273007CD00643D2F /* LaunchScreen.storyboard in Resources */,
-				04FBBEA6273007CD00643D2F /* Assets.xcassets in Resources */,
 				04FBBEB12730080100643D2F /* Podfile in Resources */,
-				04FBBEA4273007CA00643D2F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,32 +191,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04FBBEA1273007CA00643D2F /* ViewController.swift in Sources */,
-				04FBBE9D273007CA00643D2F /* AppDelegate.swift in Sources */,
-				04FBBE9F273007CA00643D2F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		04FBBEA2273007CA00643D2F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04FBBEA3273007CA00643D2F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		04FBBEA7273007CD00643D2F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04FBBEA8273007CD00643D2F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		04FBBEAB273007CD00643D2F /* Debug */ = {

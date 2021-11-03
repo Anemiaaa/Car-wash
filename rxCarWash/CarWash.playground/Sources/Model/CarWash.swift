@@ -13,22 +13,7 @@ public class CarWash {
     // MARK: -
     // MARK: Initialization
     
-    public init(chief: Chief, priceWaterLiter: Float) {
+    public init(priceWaterLiter: Float) {
         self.priceWaterLiter = priceWaterLiter
-        
-        self.parentController?.employmentLog.chief = chief
-        self.parentController?.employmentLog.chief?.workPlace = self
     }
-    
-    // MARK: -
-    // MARK: Public
-    
-//    public func take(car: Car) {
-//        let car = Weak(object: car)
-//        self.cars.append(car)
-//    }
-//    
-//    public func remove(car: Car) {
-//        self.cars.removeAll { $0.object == car }
-//    }
 }

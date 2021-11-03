@@ -13,6 +13,8 @@ public class Accountant: Manager<Washer> {
             self.money = changedMoney
         }
         
+        processable.money = 0
+        
         return recievedProfit
     }
 }
