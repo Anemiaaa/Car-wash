@@ -1,4 +1,5 @@
 import Foundation
+import RxCocoa
 
 public enum CleanResult {
     
@@ -7,7 +8,17 @@ public enum CleanResult {
     case noNeedToClean
 }
 
+public enum WasherStates {
+    
+    case carServiced(car: Car, result: CleanResult)
+}
+
 public class Washer: Worker<Car> {
+    
+    // MARK: -
+    // MARK: Variables
+    
+    public let carCleanableStatesHandler = PublishSubject<WasherStates>()
     
     // MARK: -
     // MARK: Public
@@ -38,7 +49,8 @@ public class Washer: Worker<Car> {
         let price = self.calculate(size: car.size, literPrice: workPlace?.priceWaterLiter ?? 5)
         
         if car.spend(money: price) == .success {
-            sleep(1)
+            sleep(Float.random(in: 0.4...1))
+            
             car.isDirty = false
             
             self.money = price
@@ -70,7 +82,7 @@ public class Washer: Worker<Car> {
     public override func process(processable: Car) -> ProcessResult {
         let result = self.clean(car: processable)
         
-        self.publishSubject.onNext(.carServiced(car: processable, result: result))
+        self.carCleanableStates.onNext(.carServiced(car: processable, result: result))
         
         return result == .success ? .success : .fail
     }

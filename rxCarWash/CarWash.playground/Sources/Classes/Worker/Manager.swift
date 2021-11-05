@@ -5,4 +5,6 @@ public class Manager<Processable: MoneyContainable>: Worker<Processable>, WorkNo
     public var available = true
     
     public let subordinatesQueue = DispatchQueue(label: "io.takeMoney", attributes: .concurrent)
+    
+    public let managerStatesHandler = PublishSubject<States>()
 }

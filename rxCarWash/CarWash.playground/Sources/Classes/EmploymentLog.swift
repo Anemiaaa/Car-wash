@@ -1,22 +1,29 @@
 import Foundation
 
-class EmploymentLog {
+public class EmploymentLog: EmploymentLogProtocol {
     
     // MARK: -
     // MARK: Variables
     
-    weak var parentController: CarWashController?
-    var log: [Accountant : [Weak<Washer>]] = [:]
+    public var log: [Accountant : [Weak<Washer>]] = [:]
+    
+    var chief: Chief
+    
+    // MARK: -
+    // MARK: Initialization
+    
+    public init(chief: Chief) {
+        self.chief = chief
+    }
     
     // MARK: -
     // MARK: Public
     
     public func getSupervizor<subordinateType: WorkerType>(subordinate: subordinateType) -> WorkNotificable? {
-        if let _ = subordinate as? Accountant,
-           let chief = self.parentController?.chief
-        {
-            return chief
+        if let _ = subordinate as? Accountant {
+            return self.chief
         }
+        
         if let subordinate = subordinate as? Washer,
            let supervisor = self.log.first(where: { $1.first { $0.object == subordinate } != nil })?.key
         {
@@ -28,11 +35,11 @@ class EmploymentLog {
     // MARK: -
     // MARK: Internal
     
-    func add(supervizors: [Accountant]) {
+    public func add(supervizors: [Accountant]) {
         supervizors.forEach { self.log.updateValue([], forKey: $0) }
     }
     
-    func appoint(subordinates: inout [Washer]) {
+    public func appoint(subordinates: inout [Washer]) {
         subordinates.forEach { subordinate in
             if var minWorkload = self.log.sorted(by: { $0.value.count < $1.value.count }).first {
                 
@@ -43,7 +50,7 @@ class EmploymentLog {
         }
     }
     
-    func remove(worker: WorkerType) {
+    public func remove(worker: WorkerType) {
         if let supervisor = worker as? Accountant,
            let index = self.log.index(forKey: supervisor),
            var values = self.log[supervisor]?.compactMap({ $0.object })

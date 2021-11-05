@@ -4,6 +4,8 @@ import Foundation
 import PlaygroundSupport
 
 let chief = Chief()
+var log = EmploymentLog(chief: chief)
+var carWash = CarWash(priceWaterLiter: 5.0)
 
 var accountants: [Accountant] = (1...7).map { _ in
     Accountant.random()
@@ -17,7 +19,8 @@ let controller = CarWashController(
     chief: chief,
     washers: &washers,
     accountants: &accountants,
-    priceWaterLiter: 5
+    log: log,
+    carWash: carWash
 )
-
 controller.startWork()
+//print("smt")

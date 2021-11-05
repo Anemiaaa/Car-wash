@@ -9,7 +9,6 @@ public class WorkerType: MoneyContainable, Equatable {
     public var money: Float
     public var workPlace: CarWash?
     
-    public let publishSubject = PublishSubject<States>()
     public let id: UUID
     
     // MARK: -

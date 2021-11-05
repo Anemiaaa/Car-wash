@@ -5,8 +5,6 @@ public class CarWash {
     // MARK: -
     // MARK: Variables
     
-    public weak var parentController: CarWashController?
-    
     public var priceWaterLiter: Float
     public var cars = Atomic<[Weak<Car>]>([])
     
